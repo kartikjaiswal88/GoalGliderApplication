@@ -71,6 +71,13 @@ public class AuthController {
         model.addAttribute("users", users);
         return "users";
     }
+
+    // Handler method to handle the request of welcome page
+    @GetMapping("/welcome")
+    public String gotoWelcomePage() {
+            return "welcome";
+    }
+
     
 
 }
