@@ -2,6 +2,7 @@ package com.example.registrationlogindemo.service;
 
 import com.example.registrationlogindemo.dto.UserDto;
 import com.example.registrationlogindemo.entity.Role;
+import com.example.registrationlogindemo.entity.Todo;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.RoleRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
@@ -56,6 +57,24 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void addTodoToUser(User user, Todo todo) {
+        user.getTodos().add(todo);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deleteTodoFromUser(User user, Todo todo) {
+        user.getTodos().remove(todo);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateTodoForUser(User user, Todo todo) {
+        // Assuming todo is already associated with the user
+        userRepository.save(user);
+    }
+
     private UserDto mapToUserDto(User user){
         UserDto userDto = new UserDto();
         String[] str = user.getName().split(" ");
@@ -70,4 +89,7 @@ public class UserServiceImpl implements UserService {
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
     }
+
+
+
 }

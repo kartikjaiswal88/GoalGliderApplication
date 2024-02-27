@@ -2,22 +2,21 @@ package com.example.registrationlogindemo.entity;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
 @Entity(name="Todo")
 public class Todo {
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String description;
     private LocalDate targetDate;
     private boolean done;
 
-    @ManyToOne // Many Todos can belong to One User
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Todo() {}
@@ -29,12 +28,11 @@ public class Todo {
         this.user = user;
     }
 
-    // Getters and Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -69,7 +67,4 @@ public class Todo {
     public void setUser(User user) {
         this.user = user;
     }
-
-
-
 }

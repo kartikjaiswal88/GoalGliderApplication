@@ -23,6 +23,9 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Todo> todos = new ArrayList<>();
+
     @Column(nullable=false)
     private String name;
 
@@ -78,8 +81,14 @@ public class User
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
-    
-    
+
+	public List<Todo> getTodos() {
+		return todos;
+	}
+
+	public void setTodos(List<Todo> todos) {
+		this.todos = todos;
+	}
     
 
 }
