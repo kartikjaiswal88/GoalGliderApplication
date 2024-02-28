@@ -6,10 +6,25 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet">
 
   <title>Manage Your Todos</title>
+
+  <style>
+         body {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+        .card-header {
+            font-weight: bold;
+            background-color: #007bff;
+            color: #fff;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-  <h1>Enter Todo Details</h1>
+<!--<div class="container">-->
+<!--  <h1>Enter Todo Details</h1>-->
 <!--  <form th:action="@{/saveTodo}" method="post" th:object="${todo}">-->
 
 <!--    <fieldset class="mb-3">-->
@@ -30,13 +45,48 @@
 <!--  </form>-->
 
 
+<div class="container" th:fragment="addTodoForm">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Add New Todo</h2>
+        </div>
+        <div class="card-body">
+          <form action="/add-todo" method="post">
+            <input type="hidden" th:field="${todo.id}" />
+
+            <div class="form-group">
+              <label for="description" style="margin-bottom: 10px;">Description:</label>
+              <input type="text" class="form-control" id="description" th:field="${todo.description}" />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 10px;">
+              <label for="targetDate" style="margin-bottom: 10px;">Target Date:</label>
+              <input type="date" class="form-control" id="targetDate" th:field="${todo.targetDate}" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
-<script type="text/javascript">
-	$('#targetDate').datepicker({
-		format : 'yyyy-mm-dd'
-	});
-</script>
+
+
+<!--</div>-->
+
+
+
+
+
+<!--<script type="text/javascript">-->
+<!--	$('#targetDate').datepicker({-->
+<!--		format : 'yyyy-mm-dd'-->
+<!--	});-->
+<!--</script>-->
 </body>
 </html>

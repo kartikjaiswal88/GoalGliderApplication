@@ -67,4 +67,16 @@ public class Todo {
     public void setUser(User user) {
         this.user = user;
     }
+
+
+    @Override
+    public String toString() {
+        return "Todo{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", targetDate=" + targetDate +
+                ", done=" + done +
+                ", user=" + user +
+                '}';
+    }
 }
