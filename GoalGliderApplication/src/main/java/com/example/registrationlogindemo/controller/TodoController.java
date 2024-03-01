@@ -4,6 +4,8 @@ import com.example.registrationlogindemo.entity.Todo;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.TodoRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
+import com.example.registrationlogindemo.service.TodoServiceImpl;
+import com.example.registrationlogindemo.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -25,16 +27,17 @@ public class TodoController {
     @Autowired
     private TodoRepository todoRepository;
 
+    @Autowired
+    private TodoServiceImpl todoServiceImpl;
+
+    @Autowired
+    private UserServiceImpl userServiceImpl;
+
     @RequestMapping("listtodos")
     public String listAllTodos(Model model) {
         // Get the currently logged-in user
         User user = getLoggedInUser();
-
-        // Retrieve all todos associated with the user
-        List<Todo> todos = user.getTodos();
-
-        // Pass the todos to the view
-        model.addAttribute("todos", todos);
+        model.addAttribute("todos",todoServiceImpl.findAllTodosByUser(user));
 
         return "listtodos";
     }
@@ -46,7 +49,7 @@ public class TodoController {
 
         // Create a new Todo object and associate it with the user
         Todo todo = new Todo();
-        todo.setDescription("Default description");
+        todo.setDescription("");
         todo.setTargetDate(LocalDate.now());
         todo.setDone(false);
         todo.setUser(user);
@@ -59,7 +62,7 @@ public class TodoController {
 
 
     @RequestMapping(value = "add-todo", method = RequestMethod.POST)
-    public String addNewTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
+    public String addNewTodo(@Valid Todo todo, BindingResult result) {
         if (result.hasErrors()) {
             return "todo"; // Return to the todo form if there are validation errors
         }
@@ -74,6 +77,8 @@ public class TodoController {
         todoRepository.save(todo);
 
         System.out.println("Saving..."+ todo.toString());
+
+//        userServiceImpl.addTodoToUser(user,todo); Check it out
 
         // Redirect to the listtodos page after saving the todo
         return "redirect:/listtodos";
