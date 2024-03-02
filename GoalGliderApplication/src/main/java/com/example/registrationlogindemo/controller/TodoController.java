@@ -4,6 +4,7 @@ import com.example.registrationlogindemo.entity.Todo;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.TodoRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
+import com.example.registrationlogindemo.service.TodoService;
 import com.example.registrationlogindemo.service.TodoServiceImpl;
 import com.example.registrationlogindemo.service.UserServiceImpl;
 import jakarta.validation.Valid;
@@ -14,8 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,7 +31,7 @@ public class TodoController {
     private TodoRepository todoRepository;
 
     @Autowired
-    private TodoServiceImpl todoServiceImpl;
+    private TodoService todoService;
 
     @Autowired
     private UserServiceImpl userServiceImpl;
@@ -37,7 +40,7 @@ public class TodoController {
     public String listAllTodos(Model model) {
         // Get the currently logged-in user
         User user = getLoggedInUser();
-        model.addAttribute("todos",todoServiceImpl.findAllTodosByUser(user));
+        model.addAttribute("todos",todoService.findAllTodosByUser(user));
 
         return "listtodos";
     }
@@ -85,6 +88,14 @@ public class TodoController {
     }
 
 
+    @PostMapping("/delete-todo")
+    public String deleteTodo(@RequestParam("todoId") Long todoId) {
+        // Call the service method to delete the todo
+        todoService.deleteTodoById(todoId);
+
+        // Redirect to the desired page after deletion
+        return "redirect:/listtodos";
+    }
 
 
 
