@@ -23,29 +23,7 @@
     </style>
 </head>
 <body>
-<!--<div class="container">-->
-<!--  <h1>Enter Todo Details</h1>-->
-<!--  <form th:action="@{/saveTodo}" method="post" th:object="${todo}">-->
-
-<!--    <fieldset class="mb-3">-->
-<!--      <label>Description</label>-->
-<!--      <input type="text" th:field="${description}" required="required" />-->
-<!--      <span th:if="${#fields.hasErrors('description')}" class="text-warning" th:errors="${description}"></span>-->
-<!--    </fieldset>-->
-
-<!--    <fieldset class="mb-3">-->
-<!--      <label>Target Date</label>-->
-<!--      <input type="text" th:field="${targetDate}" required="required" />-->
-<!--      <span th:if="${#fields.hasErrors('targetDate')}" class="text-warning" th:errors="${targetDate}"></span>-->
-<!--    </fieldset>-->
-
-<!--    <input type="hidden" th:field="${id}" />-->
-<!--    <input type="hidden" th:field="${done}" />-->
-<!--    <input type="submit" class="btn btn-success" />-->
-<!--  </form>-->
-
-
-<div class="container" th:fragment="addTodoForm">
+<div class="container">
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
@@ -53,17 +31,19 @@
           <h2 class="card-title">Add New Todo</h2>
         </div>
         <div class="card-body">
-          <form action="/add-todo" method="post">
+          <form th:action="@{/add-todo}" method="post">
             <input type="hidden" th:field="${todo.id}" />
+            <input type="hidden" th:field="${todo.done}" />
 
             <div class="form-group">
               <label for="description" style="margin-bottom: 10px;">Description:</label>
-              <input type="text" class="form-control" id="description" th:field="${todo.description}" placeholder="Enter the Description.."/>
+              <input type="text" class="form-control" id="description" th:field="${todo.description}" placeholder="Enter the Description of at least 8 length" required minlength="8" maxlength="30"/>
+
             </div>
 
             <div class="form-group" style="margin-bottom: 10px;">
               <label for="targetDate" style="margin-bottom: 10px;">Target Date:</label>
-              <input type="date" class="form-control" id="targetDate" th:field="${todo.targetDate}" />
+              <input type="date" class="form-control" id="targetDate" th:field="${todo.targetDate}"  required min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
             </div>
 
             <button type="submit" class="btn btn-primary">Save</button>
@@ -73,20 +53,5 @@
     </div>
   </div>
 </div>
-
-
-
-
-<!--</div>-->
-
-
-
-
-
-<!--<script type="text/javascript">-->
-<!--	$('#targetDate').datepicker({-->
-<!--		format : 'yyyy-mm-dd'-->
-<!--	});-->
-<!--</script>-->
 </body>
 </html>

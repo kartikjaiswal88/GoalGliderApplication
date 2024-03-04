@@ -3,6 +3,8 @@ package com.example.registrationlogindemo.entity;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity(name="Todo")
@@ -11,7 +13,12 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(min = 8, max = 30)
     private String description;
+
+    @NotNull
+    @FutureOrPresent
     private LocalDate targetDate;
     private boolean done;
 

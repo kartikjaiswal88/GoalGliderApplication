@@ -5,30 +5,29 @@ import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.TodoRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.service.TodoService;
-import com.example.registrationlogindemo.service.TodoServiceImpl;
 import com.example.registrationlogindemo.service.UserServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 public class TodoController {
-    @Autowired
-    private UserRepository userRepository;
+
     @Autowired
     private TodoRepository todoRepository;
 
     @Autowired
     private TodoService todoService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserServiceImpl userServiceImpl;
@@ -37,8 +36,7 @@ public class TodoController {
     public String listAllTodos(Model model) {
         // Get the currently logged-in user
         User user = getLoggedInUser();
-        model.addAttribute("todos",todoService.findAllTodosByUser(user));
-
+        model.addAttribute("todos", todoService.findAllTodosByUser(user));
         return "listtodos";
     }
 
@@ -60,9 +58,19 @@ public class TodoController {
         return "todo";
     }
 
-
     @RequestMapping(value = "add-todo", method = RequestMethod.POST)
-    public String addNewTodo(@Valid Todo todo, BindingResult result) {
+    public String addNewTodo(@Valid @ModelAttribute Todo todo, BindingResult result) {
+
+        // Check if the target date is before the current date
+        if (todo.getTargetDate() != null && todo.getTargetDate().isBefore(LocalDate.now())) {
+            result.rejectValue("targetDate", "error.todo", "Target date must be in the future");
+        }
+        // Check if the description length is within the allowed range
+        if (todo.getDescription().length() < 8 || todo.getDescription().length() > 30) {
+            result.rejectValue("description", "error.todo", "Description must be between 8 and 30 characters");
+        }
+
+
         if (result.hasErrors()) {
             return "todo"; // Return to the todo form if there are validation errors
         }
@@ -76,14 +84,9 @@ public class TodoController {
         // Save the todo
         todoRepository.save(todo);
 
-        System.out.println("Saving..."+ todo.toString());
-
-//        userServiceImpl.addTodoToUser(user,todo); Check it out
-
         // Redirect to the listtodos page after saving the todo
         return "redirect:/listtodos";
     }
-
 
     @PostMapping("/delete-todo")
     public String deleteTodo(@RequestParam("todoId") Long todoId) {
@@ -120,13 +123,6 @@ public class TodoController {
         return "redirect:/listtodos";
     }
 
-
-
-
-
-
-
-
     private User getLoggedInUser() {
         // Retrieve the currently logged-in user's email
         String email = getLoggedInUsername();
@@ -139,9 +135,6 @@ public class TodoController {
 
     private String getLoggedInUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         return authentication.getName();
     }
-
-
 }
