@@ -93,7 +93,8 @@ background-image: linear-gradient(45deg, #0421e9 0%, #ffffff 33%, #ffffff 66%, #
                     </form>
                     <form action="/update-todo" method="get" class="float-start">
                         <input type="hidden" name="todoId" th:value="${todo.id}" />
-                        <button type="submit" class="btn btn-info btn-margin">Update</button>
+                        <button type="submit" class="btn btn-info btn-margin" th:if="${!todo.done}" >Update</button>
+                        <button type="submit" class="btn btn-info btn-margin" th:if="${todo.done}" disabled>Update</button>
                     </form>
                 </td>
             </tr>

@@ -123,6 +123,22 @@ public class TodoController {
         return "redirect:/listtodos";
     }
 
+    @PostMapping("/mark-as-done")
+    public String markTodoAsDone(@RequestParam("todoId") Long todoId) {
+        // Find the todo by its ID
+        Todo todo = todoService.findTodoById(todoId);
+
+        // Mark the todo as done
+        todo.setDone(true);
+
+        // Save the updated todo
+        todoService.saveOrUpdateTodo(todo);
+
+        // Redirect to the listtodos page after marking the todo as done
+        return "redirect:/listtodos";
+    }
+
+
     private User getLoggedInUser() {
         // Retrieve the currently logged-in user's email
         String email = getLoggedInUsername();
