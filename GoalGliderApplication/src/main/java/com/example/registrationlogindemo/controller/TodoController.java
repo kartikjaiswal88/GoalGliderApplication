@@ -15,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -97,6 +94,31 @@ public class TodoController {
         return "redirect:/listtodos";
     }
 
+    @GetMapping("/update-todo")
+    public String showUpdateTodoForm(@RequestParam("todoId") Long todoId, Model model) {
+        Todo todo = todoService.findTodoById(todoId);
+        model.addAttribute("todo", todo);
+        return "update-todo"; // Return the update form view
+    }
+
+    @PostMapping("/update-todo")
+    public String updateTodo(@Valid Todo todo, BindingResult result) {
+        if (result.hasErrors()) {
+            return "update-todo"; // Return to the update form if there are validation errors
+        }
+
+        // Get the currently logged-in user
+        User user = getLoggedInUser();
+
+        // Set the user for the todo
+        todo.setUser(user);
+
+        // Save the updated todo
+        todoService.saveOrUpdateTodo(todo);
+
+        // Redirect to the listtodos page after updating the todo
+        return "redirect:/listtodos";
+    }
 
 
 
