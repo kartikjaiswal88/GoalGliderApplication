@@ -5,7 +5,6 @@ import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.TodoRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.service.TodoService;
-import com.example.registrationlogindemo.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +14,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Controller
@@ -29,12 +31,8 @@ public class TodoController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private UserServiceImpl userServiceImpl;
-
     @RequestMapping("listtodos")
     public String listAllTodos(Model model) {
-        // Get the currently logged-in user
         User user = getLoggedInUser();
         model.addAttribute("todos", todoService.findAllTodosByUser(user));
         return "listtodos";
@@ -42,58 +40,36 @@ public class TodoController {
 
     @RequestMapping(value = "add-todo", method = RequestMethod.GET)
     public String showNewTodoPage(Model model) {
-        // Find the user by their email
         User user = getLoggedInUser();
-
-        // Create a new Todo object and associate it with the user
         Todo todo = new Todo();
         todo.setDescription("");
         todo.setTargetDate(LocalDate.now());
         todo.setDone(false);
         todo.setUser(user);
-
-        // Pass the Todo object to the view
         model.addAttribute("todo", todo);
-
         return "todo";
     }
 
     @RequestMapping(value = "add-todo", method = RequestMethod.POST)
     public String addNewTodo(@Valid @ModelAttribute Todo todo, BindingResult result) {
-
-        // Check if the target date is before the current date
         if (todo.getTargetDate() != null && todo.getTargetDate().isBefore(LocalDate.now())) {
             result.rejectValue("targetDate", "error.todo", "Target date must be in the future");
         }
-        // Check if the description length is within the allowed range
         if (todo.getDescription().length() < 8 || todo.getDescription().length() > 30) {
             result.rejectValue("description", "error.todo", "Description must be between 8 and 30 characters");
         }
-
-
         if (result.hasErrors()) {
-            return "todo"; // Return to the todo form if there are validation errors
+            return "todo";
         }
-
-        // Get the currently logged-in user
         User user = getLoggedInUser();
-
-        // Set the user for the todo
         todo.setUser(user);
-
-        // Save the todo
         todoRepository.save(todo);
-
-        // Redirect to the listtodos page after saving the todo
         return "redirect:/listtodos";
     }
 
     @PostMapping("/delete-todo")
     public String deleteTodo(@RequestParam("todoId") Long todoId) {
-        // Call the service method to delete the todo
         todoService.deleteTodoById(todoId);
-
-        // Redirect to the desired page after deletion
         return "redirect:/listtodos";
     }
 
@@ -101,25 +77,17 @@ public class TodoController {
     public String showUpdateTodoForm(@RequestParam("todoId") Long todoId, Model model) {
         Todo todo = todoService.findTodoById(todoId);
         model.addAttribute("todo", todo);
-        return "update-todo"; // Return the update form view
+        return "update-todo";
     }
 
     @PostMapping("/update-todo")
     public String updateTodo(@Valid Todo todo, BindingResult result) {
         if (result.hasErrors()) {
-            return "update-todo"; // Return to the update form if there are validation errors
+            return "update-todo";
         }
-
-        // Get the currently logged-in user
         User user = getLoggedInUser();
-
-        // Set the user for the todo
         todo.setUser(user);
-
-        // Save the updated todo
         todoService.saveOrUpdateTodo(todo);
-
-        // Redirect to the listtodos page after updating the todo
         return "redirect:/listtodos";
     }
 
@@ -138,15 +106,27 @@ public class TodoController {
         return "redirect:/listtodos";
     }
 
+    @PostMapping("/start-stopwatch/{todoId}")
+    public String startStopwatch(@PathVariable Long todoId) {
+        Todo todo = todoRepository.findById(todoId).orElse(null);
+        if (todo != null) {
+            if (todo.getStopwatchStartTime() == null) {
+                todo.setStopwatchStartTime(Instant.now());
+            } else {
+                Instant startTime = todo.getStopwatchStartTime();
+                Instant endTime = Instant.now();
+                long elapsedTimeMillis = Duration.between(startTime, endTime).toMillis();
+                todo.setTotalTime(todo.getTotalTime() + elapsedTimeMillis);
+                todo.setStopwatchStartTime(null);
+            }
+            todoRepository.save(todo);
+        }
+        return "redirect:/listtodos";
+    }
 
     private User getLoggedInUser() {
-        // Retrieve the currently logged-in user's email
         String email = getLoggedInUsername();
-
-        // Find the user by their email
-        User user = userRepository.findByEmail(email);
-
-        return user;
+        return userRepository.findByEmail(email);
     }
 
     private String getLoggedInUsername() {

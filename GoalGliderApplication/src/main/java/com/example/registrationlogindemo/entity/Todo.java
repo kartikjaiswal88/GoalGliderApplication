@@ -1,14 +1,16 @@
 package com.example.registrationlogindemo.entity;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Entity(name="Todo")
+import java.time.Instant;
+import java.time.LocalDate;
+
+@Entity(name = "Todo")
 public class Todo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,13 +22,19 @@ public class Todo {
     @NotNull
     @FutureOrPresent
     private LocalDate targetDate;
+
     private boolean done;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Todo() {}
+    private long totalTime;
+
+    private Instant stopwatchStartTime;
+
+    public Todo() {
+    }
 
     public Todo(String description, LocalDate targetDate, boolean done, User user) {
         this.description = description;
@@ -34,6 +42,8 @@ public class Todo {
         this.done = done;
         this.user = user;
     }
+
+    // Getters and setters
 
     public Long getId() {
         return id;
@@ -75,6 +85,21 @@ public class Todo {
         this.user = user;
     }
 
+    public long getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(long totalTime) {
+        this.totalTime = totalTime;
+    }
+
+    public Instant getStopwatchStartTime() {
+        return stopwatchStartTime;
+    }
+
+    public void setStopwatchStartTime(Instant stopwatchStartTime) {
+        this.stopwatchStartTime = stopwatchStartTime;
+    }
 
     @Override
     public String toString() {
