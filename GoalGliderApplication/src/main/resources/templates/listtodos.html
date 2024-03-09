@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listing All the Todos</title>
 
     <!-- Bootstrap CSS -->
@@ -13,6 +14,7 @@
         /* Major Color: White */
         body {
             background-color: #ffffff;
+            color: #495057; /* Text color */
         }
 
         /* Minor Color: Blue */
@@ -41,16 +43,74 @@
         }
 
         /* Table heading styling */
-
         th {
             background-color: #0421e9;
-background-image: linear-gradient(45deg, #0421e9 0%, #ffffff 33%, #ffffff 66%, #092bed 100%);
+            background-image: linear-gradient(45deg, #0421e9 0%, #ffffff 33%, #ffffff 66%, #092bed 100%);
             font-weight: bold;
             text-align: center; /* Center-align text */
+        }
+
+        /* Center-align text in the column */
+        .center-align {
+            text-align: center;
+        }
+
+        /* Custom table styling */
+        .custom-table {
+            border-collapse: separate;
+            border-spacing: 0 12px;
+            width: 100%;
+        }
+
+        .custom-table th, .custom-table td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+
+        .custom-table th {
+            border: 1px solid #dee2e6;
+        }
+
+        .custom-table td {
+            border: 1px solid #dee2e6;
+        }
+
+        .custom-table .start-stop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .custom-table .stopwatch-time {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .custom-table .btn-start {
+            margin-right: auto;
+        }
+
+        .custom-table .btn-stop {
+            margin-left: auto;
+        }
+
+        .custom-table .actions {
+            white-space: nowrap;
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
     </style>
 </head>
 <body>
+<!-- Navigation Bar -->
 <nav class="navbar navbar-expand-md navbar-light bg-light mb-3 p-1">
     <a class="navbar-brand m-1" href="https://courses.in28minutes.com">MeriDinCharya</a>
     <div class="collapse navbar-collapse">
@@ -64,37 +124,62 @@ background-image: linear-gradient(45deg, #0421e9 0%, #ffffff 33%, #ffffff 66%, #
     </ul>
 </nav>
 
+<!-- Todo Table -->
 <div class="container">
+    <h2 class="text-center mb-4">Welcome, <span th:text="${#authentication.principal.username}"></span></h2>
     <div class="row">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped custom-table">
             <thead>
             <tr class="theadStyle">
                 <th>Description</th>
                 <th>Target Date</th>
-                <th>Status</th> <!-- Changed heading to "Status" -->
-                <th>Action</th> <!-- Added a new column for action -->
+                <th>Total Time & Stopwatch</th>
+                <th>Status</th>
+                <th class="actions">Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="todo : ${todos}">
                 <td th:text="${todo.description}"></td>
                 <td th:text="${todo.targetDate}"></td>
-                <td> <!-- New column for status button -->
+                <td class="center-align">
+                    <div class="start-stop">
+                        <form th:action="@{/start-stopwatch/{todoId}(todoId=${todo.id})}" method="post" class="btn-start">
+                            <button type="submit" class="btn btn-success">Start</button>
+                        </form>
+                        <span class="stopwatch-time" th:if="${todo.totalTime ge (60 * 1000)}">
+        <span th:text="${(todo.totalTime / (1000 * 60 * 60))} + ' hours '"></span>
+        <span th:text="${(todo.totalTime / (1000 * 60)) % 60} + ' minutes'"></span>
+    </span>
+                        <span class="stopwatch-time" th:if="${todo.totalTime lt (60 * 1000)}">
+        <span th:text="${(todo.totalTime / 1000) % 60} + ' seconds'"></span>
+    </span>
+                        <form th:action="@{/start-stopwatch/{todoId}(todoId=${todo.id})}" method="post" class="btn-stop">
+                            <button type="submit" class="btn btn-danger">Stop</button>
+                        </form>
+                    </div>
+
+
+
+
+
+                </td>
+                <td>
                     <form action="/mark-as-done" method="post">
                         <input type="hidden" name="todoId" th:value="${todo.id}" />
-                        <button type="submit" class="btn btn-success btn-margin " th:if="${!todo.done}">Mark as Done</button>
-                        <button type="submit" class="btn btn-success btn-margin " th:if="${todo.done}" disabled>Done</button>
+                        <button type="submit" class="btn btn-success btn-margin" th:if="${!todo.done}">Mark as Done</button>
+                        <button type="submit" class="btn btn-success btn-margin" th:if="${todo.done}" disabled>Done</button>
                     </form>
                 </td>
-                <td> <!-- New column for buttons -->
-                    <form action="/delete-todo" method="post" class="float-end">
-                        <input type="hidden" name="todoId" th:value="${todo.id}" />
-                        <button type="submit" class="btn btn-danger btn-margin">Delete</button>
-                    </form>
+                <td class="actions">
                     <form action="/update-todo" method="get" class="float-start">
                         <input type="hidden" name="todoId" th:value="${todo.id}" />
                         <button type="submit" class="btn btn-info btn-margin" th:if="${!todo.done}" >Update</button>
                         <button type="submit" class="btn btn-info btn-margin" th:if="${todo.done}" disabled>Update</button>
+                    </form>
+                    <form action="/delete-todo" method="post" class="float-end">
+                        <input type="hidden" name="todoId" th:value="${todo.id}" />
+                        <button type="submit" class="btn btn-danger btn-margin">Delete</button>
                     </form>
                 </td>
             </tr>
@@ -104,5 +189,9 @@ background-image: linear-gradient(45deg, #0421e9 0%, #ffffff 33%, #ffffff 66%, #
     <a href="add-todo" class="btn btn-success">Add Todo</a>
 </div>
 
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 MeriDinCharya. All rights reserved.</p>
+</footer>
 </body>
 </html>
