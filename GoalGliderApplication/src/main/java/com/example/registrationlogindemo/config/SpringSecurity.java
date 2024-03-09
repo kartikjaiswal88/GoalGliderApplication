@@ -3,6 +3,7 @@ package com.example.registrationlogindemo.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,8 +28,8 @@ public class SpringSecurity {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-				.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/register/**").permitAll()
-						.requestMatchers("/index").permitAll().requestMatchers("/welcome","/listtodos","/add-todo","/delete-todo","/update-todo","/mark-as-done","/start-stopwatch/{todoId}").hasRole("ADMIN"))
+				.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/register/**","/send-email-verification","/verify-otp","/forget-password").permitAll()
+						 .requestMatchers("/welcome","/listtodos","/add-todo","/delete-todo","/update-todo","/mark-as-done").hasRole("ADMIN"))
 				.formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/welcome")
 						.permitAll())
 				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll());
