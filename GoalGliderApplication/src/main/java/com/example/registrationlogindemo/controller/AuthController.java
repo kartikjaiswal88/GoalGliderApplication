@@ -76,8 +76,6 @@ public class AuthController {
     @GetMapping("/welcome")
     public String gotoWelcomePage() {
             return "welcome";
+
     }
-
-    
-
 }
