@@ -110,12 +110,14 @@ public class TodoController {
     public String startStopwatch(@PathVariable Long todoId) {
         Todo todo = todoRepository.findById(todoId).orElse(null);
         if (todo != null) {
-            if (todo.getStopwatchStartTime() == null) {
-                todo.setStopwatchStartTime(Instant.now());
+            Instant now = Instant.now();
+            Instant stopwatchStartTime = todo.getStopwatchStartTime();
+            if (stopwatchStartTime == null) {
+                // Start the stopwatch
+                todo.setStopwatchStartTime(now);
             } else {
-                Instant startTime = todo.getStopwatchStartTime();
-                Instant endTime = Instant.now();
-                long elapsedTimeMillis = Duration.between(startTime, endTime).toMillis();
+                // Stop the stopwatch and calculate elapsed time
+                long elapsedTimeMillis = Duration.between(stopwatchStartTime, now).toMillis();
                 todo.setTotalTime(todo.getTotalTime() + elapsedTimeMillis);
                 todo.setStopwatchStartTime(null);
             }
@@ -123,6 +125,7 @@ public class TodoController {
         }
         return "redirect:/listtodos";
     }
+
 
     private User getLoggedInUser() {
         String email = getLoggedInUsername();

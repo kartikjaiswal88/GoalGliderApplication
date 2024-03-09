@@ -1,49 +1,140 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Registration and Login System</title>
+  <title>Welcome to MeriDinCharya</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
+
+  <!-- Custom CSS -->
+  <style>
+        /* Theme Color: Light Blue */
+        body {
+            background-color: #f0f9ff;
+        }
+
+        .navbar-light .navbar-brand,
+        .navbar-light .navbar-nav .nav-link {
+            color: #007bff;
+        }
+
+        .navbar-light .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 123, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Main Content Styling */
+        main {
+            padding: 50px 0;
+        }
+
+        section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        section p {
+            color: #555;
+        }
+
+        section a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #0421e9;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        footer .inspiring-thoughts {
+            font-style: italic;
+            font-size: 14px;
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">MeriDinCharya</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/listtodos">Go to Todo Page</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<main>
+<main class="container">
   <section>
-    <h2>About Us</h2>
-    <p>Your Todo Application helps you organize your tasks and stay productive.</p>
+    <h2>Welcome to MeriDinCharya</h2>
+    <p>Organize your day, stay productive, and achieve your goals with MeriDinCharya.</p>
+    <p>MeriDinCharya is your personal assistant to manage tasks, set deadlines, and track progress effortlessly.</p>
+    <p>Start using MeriDinCharya today and make every day count!</p>
+  </section>
+
+  <section>
+    <h2>Features</h2>
+    <ul>
+      <li>Easy-to-use interface</li>
+      <li>Customizable task lists</li>
+      <li>Priority settings</li>
+      <li>Deadline reminders</li>
+      <li>Mobile-friendly design</li>
+      <li>Secure and reliable</li>
+    </ul>
   </section>
 
   <section>
     <h2>Get Started</h2>
-    <p>Start managing your tasks now by <a href="listtodos"> Go to Todo Page</a>   </p>
+    <p>Start managing your tasks now by <a href="/listtodos">going to the Todo Page</a>.</p>
   </section>
 </main>
 
 <footer>
-  <!-- Include footer content -->
-  <p>&copy; 2024 Your Todo Application. All rights reserved.</p>
+  <div class="container">
+    <p>Stay inspired and keep moving forward!</p>
+    <p class="inspiring-thoughts">"The only way to do great work is to love what you do." - Steve Jobs</p>
+  </div>
 </footer>
 
-<!-- Add your JavaScript files and scripts here -->
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-mrS2fzmFcLEP6dL+tvjSkb+Nt2iJRtS3Q8sFs6G6b6AjNEaZJwXda9SHclF+gndG"
+        crossorigin="anonymous"></script>
 </body>
 </html>

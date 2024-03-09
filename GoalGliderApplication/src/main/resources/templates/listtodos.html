@@ -11,16 +11,44 @@
 
     <!-- Custom CSS for Theme -->
     <style>
-        /* Major Color: White */
+        /* Major Color: Blue Gradient */
         body {
-            background-color: #ffffff;
-            color: #495057; /* Text color */
+            background: linear-gradient(135deg, #1e5799 0%,#207cca 100%);
+            color: #ffffff; /* Text color */
         }
 
         /* Minor Color: Blue */
         .navbar-light .navbar-brand,
         .navbar-light .navbar-nav .nav-link {
-            color: #007bff;
+            color: #ffffff;
+        }
+
+        /* Updated Navigation Bar Style */
+        .navbar-dark-custom {
+            background-color: #292b2c; /* Darker color */
+        }
+
+        .navbar-dark-custom .navbar-brand,
+        .navbar-dark-custom .navbar-nav .nav-link {
+            color: #ffffff;
+        }
+
+        .navbar-dark-custom .navbar-toggler-icon {
+            background-color: #ffffff; /* White color */
+        }
+
+        .navbar-dark-custom .navbar-toggler {
+            border-color: #ffffff; /* White color */
+        }
+
+        .navbar-dark-custom .navbar-toggler:focus,
+        .navbar-dark-custom .navbar-toggler:active {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .navbar-dark-custom .navbar-nav .nav-link:hover {
+            color: #f8f9fa; /* Lighter color on hover */
         }
 
         /* Other Color: Red */
@@ -48,6 +76,7 @@
             background-image: linear-gradient(45deg, #0421e9 0%, #ffffff 33%, #ffffff 66%, #092bed 100%);
             font-weight: bold;
             text-align: center; /* Center-align text */
+            color: #ffffff;
         }
 
         /* Center-align text in the column */
@@ -86,43 +115,62 @@
             font-weight: bold;
         }
 
-        .custom-table .btn-start {
-            margin-right: auto;
+        .custom-table .btn-toggle {
+            width: 100px; /* Adjust button width as needed */
         }
 
-        .custom-table .btn-stop {
-            margin-left: auto;
+        /* Add Todo Button */
+        .btn-add-todo {
+            position: fixed;
+            bottom: 20px; /* Adjust the distance from the bottom as needed */
+            right: 20px; /* Adjust the distance from the right as needed */
+            z-index: 1000; /* Ensure button is above other elements */
         }
 
-        .custom-table .actions {
-            white-space: nowrap;
+        /* Gap between Todo Table and Footer */
+        .footer-gap {
+            height: 50px; /* Adjust the gap height as needed */
         }
 
         /* Footer styling */
         footer {
-            background-color: #f8f9fa;
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 20px 0;
             text-align: center;
             position: fixed;
             width: 100%;
             bottom: 0;
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
 <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-md navbar-light bg-light mb-3 p-1">
-    <a class="navbar-brand m-1" href="https://courses.in28minutes.com">MeriDinCharya</a>
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="/welcome">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/listtodos">Todos</a></li>
-        </ul>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3 p-1 navbar-dark-custom">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="https://courses.in28minutes.com">MeriDinCharya</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/welcome">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/listtodos">Todos</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-    </ul>
 </nav>
+
 
 <!-- Todo Table -->
 <div class="container">
@@ -130,7 +178,7 @@
     <div class="row">
         <table class="table table-bordered table-striped custom-table">
             <thead>
-            <tr class="theadStyle">
+            <tr>
                 <th>Description</th>
                 <th>Target Date</th>
                 <th>Total Time & Stopwatch</th>
@@ -144,41 +192,40 @@
                 <td th:text="${todo.targetDate}"></td>
                 <td class="center-align">
                     <div class="start-stop">
-                        <form th:action="@{/start-stopwatch/{todoId}(todoId=${todo.id})}" method="post" class="btn-start">
-                            <button type="submit" class="btn btn-success">Start</button>
+                        <form th:action="@{/start-stopwatch/{todoId}(todoId=${todo.id})}" method="post"
+                              class="btn-start">
+                            <button type="submit" class="btn btn-toggle btn-success">Start</button>
                         </form>
-                        <span class="stopwatch-time" th:if="${todo.totalTime ge (60 * 1000)}">
-        <span th:text="${(todo.totalTime / (1000 * 60 * 60))} + ' hours '"></span>
-        <span th:text="${(todo.totalTime / (1000 * 60)) % 60} + ' minutes'"></span>
-    </span>
-                        <span class="stopwatch-time" th:if="${todo.totalTime lt (60 * 1000)}">
-        <span th:text="${(todo.totalTime / 1000) % 60} + ' seconds'"></span>
-    </span>
-                        <form th:action="@{/start-stopwatch/{todoId}(todoId=${todo.id})}" method="post" class="btn-stop">
-                            <button type="submit" class="btn btn-danger">Stop</button>
-                        </form>
+                        <span class="stopwatch-time"
+                              th:if="${todo.totalTime ge (60 * 1000)}">
+                            <span th:text="${(todo.totalTime / (1000 * 60 * 60) >= 10 ? (todo.totalTime / (1000 * 60 * 60)) % 24 : '0' + (todo.totalTime / (1000 * 60 * 60)) % 24) + ':' + (todo.totalTime / (1000 * 60) >= 10 ? (todo.totalTime / (1000 * 60)) % 60 : '0' + (todo.totalTime / (1000 * 60)) % 60) + ':' + (todo.totalTime / 1000 >= 10 ? (todo.totalTime / 1000) % 60 : '0' + (todo.totalTime / 1000) % 60)}"></span>
+                        </span>
+                        <span class="stopwatch-time"
+                              th:if="${todo.totalTime lt (60 * 1000)}">
+                           <span th:text="${String.format('%02d:%02d:%02d', 0, 0, (todo.totalTime / 1000) % 60)}" th:if="${todo.totalTime ge (60 * 1000)}"></span>
+                        </span>
                     </div>
-
-
-
-
-
                 </td>
                 <td>
                     <form action="/mark-as-done" method="post">
-                        <input type="hidden" name="todoId" th:value="${todo.id}" />
-                        <button type="submit" class="btn btn-success btn-margin" th:if="${!todo.done}">Mark as Done</button>
-                        <button type="submit" class="btn btn-success btn-margin" th:if="${todo.done}" disabled>Done</button>
+                        <input type="hidden" name="todoId" th:value="${todo.id}"/>
+                        <button type="submit" class="btn btn-success btn-margin"
+                                th:if="${!todo.done}">Mark as Done
+                        </button>
+                        <button type="submit" class="btn btn-success btn-margin"
+                                th:if="${todo.done}" disabled>Done
+                        </button>
                     </form>
                 </td>
                 <td class="actions">
                     <form action="/update-todo" method="get" class="float-start">
-                        <input type="hidden" name="todoId" th:value="${todo.id}" />
-                        <button type="submit" class="btn btn-info btn-margin" th:if="${!todo.done}" >Update</button>
-                        <button type="submit" class="btn btn-info btn-margin" th:if="${todo.done}" disabled>Update</button>
+                        <input type="hidden" name="todoId" th:value="${todo.id}"/>
+                        <button type="submit" class="btn btn-info btn-margin" th:if="${!todo.done}">Update</button>
+                        <button type="submit" class="btn btn-info btn-margin" th:if="${todo.done}" disabled>Update
+                        </button>
                     </form>
                     <form action="/delete-todo" method="post" class="float-end">
-                        <input type="hidden" name="todoId" th:value="${todo.id}" />
+                        <input type="hidden" name="todoId" th:value="${todo.id}"/>
                         <button type="submit" class="btn btn-danger btn-margin">Delete</button>
                     </form>
                 </td>
@@ -186,12 +233,40 @@
             </tbody>
         </table>
     </div>
-    <a href="add-todo" class="btn btn-success">Add Todo</a>
 </div>
+
+<!-- Add Todo Button -->
+<a href="add-todo" class="btn btn-success btn-add-todo">Add Todo</a>
+
+<!-- Gap between Todo Table and Footer -->
+<div class="footer-gap"></div>
 
 <!-- Footer -->
 <footer>
     <p>&copy; 2024 MeriDinCharya. All rights reserved.</p>
 </footer>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ZLLxIBGqF1ZZyB/l9z+Ee5JnTKtOT9bLi2Kx4x8g4ABi17wuPKfVk+Wd6aPS/zJ2"
+        crossorigin="anonymous"></script>
+<script>
+    document.querySelectorAll('.btn-toggle').forEach(btnToggle => {
+        btnToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const form = btnToggle.closest('form');
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    btnToggle.textContent = btnToggle.textContent === 'Start' ? 'Stop' : 'Start';
+                }
+            });
+        });
+    });
+
+</script>
 </body>
 </html>

@@ -5,8 +5,10 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Duration;
 
 @Entity(name = "Todo")
 public class Todo {
@@ -28,9 +30,7 @@ public class Todo {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
     private long totalTime;
-
     private Instant stopwatchStartTime;
 
     public Todo() {
