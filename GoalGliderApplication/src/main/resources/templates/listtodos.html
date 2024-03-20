@@ -127,6 +127,14 @@
             z-index: 1000; /* Ensure button is above other elements */
         }
 
+        /* PDF Button */
+        .btn-pdf {
+            position: fixed;
+            bottom: 20px; /* Adjust the distance from the bottom as needed */
+            left: 20px; /* Adjust the distance from the right as needed */
+            z-index: 1000; /* Ensure button is above other elements */
+        }
+
         /* Gap between Todo Table and Footer */
         .footer-gap {
             height: 50px; /* Adjust the gap height as needed */
@@ -237,6 +245,7 @@
 
 <!-- Add Todo Button -->
 <a href="add-todo" class="btn btn-success btn-add-todo">Add Todo</a>
+<a href="pdf/createPdf" class="btn btn-danger btn-pdf">Generate PDF</a>
 
 <!-- Gap between Todo Table and Footer -->
 <div class="footer-gap"></div>

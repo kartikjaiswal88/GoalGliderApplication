@@ -29,7 +29,7 @@ public class SpringSecurity {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 				.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/register/**","/send-email-verification","/verify-otp","/forget-password").permitAll()
-						 .requestMatchers("/welcome","/listtodos","/add-todo","/delete-todo","/update-todo","/mark-as-done").hasRole("ADMIN"))
+						 .requestMatchers("/welcome","/listtodos","/add-todo","/delete-todo","/update-todo","/mark-as-done","/pdf/createPdf").hasRole("ADMIN"))
 				.formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/welcome")
 						.permitAll())
 				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll());
