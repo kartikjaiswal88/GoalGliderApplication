@@ -126,6 +126,11 @@ public class TodoController {
         return "redirect:/listtodos";
     }
 
+    @GetMapping("/pieChart")
+    public String showPieChart() {
+        return "pieChart";
+    }
+
 
     private User getLoggedInUser() {
         String email = getLoggedInUsername();
