@@ -37,6 +37,9 @@
             <div th:if="${param.logout}">
                 <div class="alert alert-success"> You have been logged out.</div>
             </div>
+            <div th:if="${param.passwordReset}">
+                <div class="alert alert-success"> Your password have been successfully changed.</div>
+            </div>
 
             <div class="card">
                 <div class="card-header">
@@ -75,6 +78,7 @@
                             <span> Not registered ?
                                 <a th:href="@{/register}">Register/Signup here</a>
                             </span>
+                            <a th:href="@{/forget-password}">Forget Password</a>
                         </div>
                     </form>
                 </div>

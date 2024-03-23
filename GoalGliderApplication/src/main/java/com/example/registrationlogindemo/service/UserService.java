@@ -16,4 +16,5 @@ public interface UserService {
     void addTodoToUser(User user, Todo todo);
     void deleteTodoFromUser(User user, Todo todo);
     void updateTodoForUser(User user, Todo todo);
+    void updatePasswordForUser(String email, String password);
 }

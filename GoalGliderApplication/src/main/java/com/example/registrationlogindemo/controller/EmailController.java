@@ -4,12 +4,14 @@ import com.example.registrationlogindemo.dto.EmailOtp;
 import com.example.registrationlogindemo.dto.EmailRequest;
 import com.example.registrationlogindemo.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 
-@RestController("/email")
+@Controller()
+@RequestMapping("/email")
 public class EmailController {
 
     @Autowired
@@ -29,16 +31,10 @@ public class EmailController {
             return "something went wrong";
         }
     }
-    @GetMapping("/forget-password")
-    public String forgetPassword(){
-
-        return "redirect:forgetpassword";
-    }
 
     @PostMapping("/send-email-verification")
-    public String sendEmailVerify(@RequestBody EmailOtp map){
-        System.out.println("sendEmailVerify called");
-        boolean flag = emailService.sendEmailVerificationOtp(map.getEmail());
+    public String sendEmailVerify(@RequestBody Map<String,String> map){
+        boolean flag = emailService.sendEmailVerificationOtp(map.get("email"));
         if(flag){
             System.out.println("Email sent Successfully");
             return "Email sent Successfully";

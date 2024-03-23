@@ -1,24 +1,29 @@
 package com.example.registrationlogindemo.controller;
 import java.util.List;
+
+import com.example.registrationlogindemo.service.EmailService;
+import jakarta.validation.constraints.Email;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.registrationlogindemo.dto.UserDto;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.service.UserService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
+@SessionAttributes("userDto")
 public class AuthController {
 
 	private UserService userService;
+    private EmailService emailService;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, EmailService emailService) {
+        this.emailService = emailService;
         this.userService = userService;
     }
 
@@ -44,7 +49,7 @@ public class AuthController {
     }
 
     // handler method to handle user registration form submit request
-    @PostMapping("/register/save")
+    @PostMapping("/register/verify")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto,
                                BindingResult result,
                                Model model){
@@ -59,8 +64,20 @@ public class AuthController {
             model.addAttribute("user", userDto);
             return "/register";
         }
-
+        boolean flag = emailService.sendEmailVerificationOtp(userDto.getEmail());
+        if(flag){
+            System.out.println("Email sent Successfully");
+            model.addAttribute("userDto",userDto);
+            return "verify-registration-email";
+        }
+        return "register";
+//        userService.saveUser(userDto);
+//        return "redirect:/register?success";
+    }
+    @PostMapping("/register/save")
+    public String registerVerified(@SessionAttribute UserDto userDto, SessionStatus sessionStatus){
         userService.saveUser(userDto);
+        sessionStatus.setComplete();
         return "redirect:/register?success";
     }
 

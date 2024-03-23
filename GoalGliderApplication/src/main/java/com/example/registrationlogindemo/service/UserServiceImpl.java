@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.registrationlogindemo.config.SpringSecurity.passwordEncoder;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -75,6 +77,14 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public void updatePasswordForUser(String email, String password) {
+        User user = findUserByEmail(email);
+        user.setPassword(passwordEncoder().encode(password));
+        userRepository.save(user);
+        System.out.println("Password updated");
+    }
+
     private UserDto mapToUserDto(User user){
         UserDto userDto = new UserDto();
         String[] str = user.getName().split(" ");
@@ -89,7 +99,4 @@ public class UserServiceImpl implements UserService {
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
     }
-
-
-
 }

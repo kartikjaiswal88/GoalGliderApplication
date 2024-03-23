@@ -18,9 +18,10 @@ public class EmailService {
     public boolean sendEmailVerificationOtp(String email){
         String subject = "OTP for Email Verification";
         String otp = generateOtp();
-        String message = "<div>" +
-                "OTP : " + otp +
-                "</div>";
+        String message = "<div style='border:1px solid #e2e2e2; padding:20px'>" +
+
+                "<h1>OTP : " + otp +
+                "</h1></div>";
 
         emailToOtp.put(email, otp);
         return sendEmail(email, subject, message);
@@ -65,7 +66,7 @@ public class EmailService {
             message.setRecipient(Message.RecipientType.TO,new InternetAddress(to));
             message.setFrom(new InternetAddress(from));
             message.setSubject(subject);
-            message.setText(text);
+            message.setContent(text,"text/html");
 
 
             Transport.send(message);
