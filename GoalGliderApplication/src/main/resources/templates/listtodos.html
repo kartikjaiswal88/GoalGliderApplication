@@ -150,6 +150,8 @@
             bottom: 0;
             color: #ffffff;
         }
+
+
     </style>
 </head>
 <body>
@@ -200,20 +202,18 @@
                 <td th:text="${todo.targetDate}"></td>
                 <td class="center-align">
                     <div class="start-stop">
+                        <!-- Show Start or Stop button based on stopwatch state -->
                         <form th:action="@{/start-stopwatch/{todoId}(todoId=${todo.id})}" method="post"
                               class="btn-start">
-                            <button type="submit" class="btn btn-toggle btn-success">Start</button>
+                            <button type="submit" class="btn btn-toggle btn-success"
+                                    th:text="${todo.stopwatchStartTime != null ? 'Stop' : 'Start'}"></button>
                         </form>
-                        <span class="stopwatch-time"
-                              th:if="${todo.totalTime ge (60 * 1000)}">
-                            <span th:text="${(todo.totalTime / (1000 * 60 * 60) >= 10 ? (todo.totalTime / (1000 * 60 * 60)) % 24 : '0' + (todo.totalTime / (1000 * 60 * 60)) % 24) + ':' + (todo.totalTime / (1000 * 60) >= 10 ? (todo.totalTime / (1000 * 60)) % 60 : '0' + (todo.totalTime / (1000 * 60)) % 60) + ':' + (todo.totalTime / 1000 >= 10 ? (todo.totalTime / 1000) % 60 : '0' + (todo.totalTime / 1000) % 60)}"></span>
-                        </span>
-                        <span class="stopwatch-time"
-                              th:if="${todo.totalTime lt (60 * 1000)}">
-                           <span th:text="${String.format('%02d:%02d:%02d', 0, 0, (todo.totalTime / 1000) % 60)}" th:if="${todo.totalTime ge (60 * 1000)}"></span>
-                        </span>
-                    </div>
+                        <!-- Display stopwatch time -->
+                        <span class="stopwatch-time">
+                        <span th:text="${(todo.totalTime + (todo.stopwatchStartTime != null ? (T(java.time.Instant).now().toEpochMilli() - todo.stopwatchStartTime.toEpochMilli()) : 0)) / 1000} + ' seconds'"></span>
+                        </span></div>
                 </td>
+
                 <td>
                     <form action="/mark-as-done" method="post">
                         <input type="hidden" name="todoId" th:value="${todo.id}"/>
@@ -251,32 +251,48 @@
 <!-- Gap between Todo Table and Footer -->
 <div class="footer-gap"></div>
 
-<!-- Footer -->
-<footer>
-    <p>&copy; 2024 MeriDinCharya. All rights reserved.</p>
-</footer>
 
 <!-- Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ZLLxIBGqF1ZZyB/l9z+Ee5JnTKtOT9bLi2Kx4x8g4ABi17wuPKfVk+Wd6aPS/zJ2"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+</script>
 <script>
+    // Add event listeners to toggle buttons
     document.querySelectorAll('.btn-toggle').forEach(btnToggle => {
         btnToggle.addEventListener('click', (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Prevent default form submission
+
+            // Get the parent form
             const form = btnToggle.closest('form');
             const formData = new FormData(form);
+
+            // Send a fetch request to the server
             fetch(form.action, {
                 method: form.method,
                 body: formData
             }).then(response => {
                 if (response.ok) {
+                    // Update button text based on the current state
                     btnToggle.textContent = btnToggle.textContent === 'Start' ? 'Stop' : 'Start';
+                    // No need to reload the page; button text is updated dynamically
+                } else {
+                    // Handle fetch errors
+                    console.error('Error:', response.statusText);
                 }
+            }).catch(error => {
+                console.error('Error:', error);
             });
         });
     });
 
+
 </script>
+
 </body>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 MeriDinCharya. All rights reserved.</p>
+</footer>
 </html>

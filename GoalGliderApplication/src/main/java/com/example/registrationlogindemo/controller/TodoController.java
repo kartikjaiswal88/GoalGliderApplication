@@ -5,6 +5,8 @@ import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.TodoRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.service.TodoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,8 @@ import java.time.LocalDate;
 
 @Controller
 public class TodoController {
+
+    private Logger logger = LoggerFactory.getLogger(TodoController.class);
 
     @Autowired
     private TodoRepository todoRepository;
@@ -108,7 +112,9 @@ public class TodoController {
 
     @PostMapping("/start-stopwatch/{todoId}")
     public String startStopwatch(@PathVariable Long todoId) {
-        Todo todo = todoRepository.findById(todoId).orElse(null);
+        logger.info("Creating the PDF started....");
+        System.out.println("startStopwatch");
+        Todo todo = todoService.findTodoById(todoId);
         if (todo != null) {
             Instant now = Instant.now();
             Instant stopwatchStartTime = todo.getStopwatchStartTime();
@@ -121,10 +127,15 @@ public class TodoController {
                 todo.setTotalTime(todo.getTotalTime() + elapsedTimeMillis);
                 todo.setStopwatchStartTime(null);
             }
-            todoRepository.save(todo);
+            todoService.saveOrUpdateTodo(todo);
+        } else {
+            // Todo not found, handle gracefully (e.g., return 404)
+            return "error"; // Assuming you have an error page defined
         }
         return "redirect:/listtodos";
     }
+
+
 
     @GetMapping("/pieChart")
     public String showPieChart() {
