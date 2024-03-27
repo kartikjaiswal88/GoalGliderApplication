@@ -12,6 +12,7 @@ public interface UserService {
     User findUserByEmail(String email);
 
     List<UserDto> findAllUsers();
+    List<User> findAllUser();
 
     void addTodoToUser(User user, Todo todo);
     void deleteTodoFromUser(User user, Todo todo);

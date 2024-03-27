@@ -17,7 +17,7 @@ import java.util.Map;
 public class ForgetController {
     private EmailService emailService;
     private UserService userService;
-    private Logger logger = LoggerFactory.getLogger(ForgetController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ForgetController.class);
 
     public ForgetController(EmailService emailService, UserService userService) {
         this.emailService = emailService;

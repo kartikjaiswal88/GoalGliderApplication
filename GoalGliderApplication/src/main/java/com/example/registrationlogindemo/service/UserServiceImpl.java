@@ -6,8 +6,10 @@ import com.example.registrationlogindemo.entity.Todo;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.RoleRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
+import org.hibernate.Hibernate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +59,12 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                 .map((user) -> mapToUserDto(user))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<User> findAllUser() {
+        return userRepository.findAll();
     }
 
     @Override

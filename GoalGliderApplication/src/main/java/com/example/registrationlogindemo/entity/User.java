@@ -15,15 +15,15 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name="users")
-public class User
-{
-    private static final long serialVersionUID = 1L;
+public class User{
+
+	private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Todo> todos = new ArrayList<>();
 
     @Column(nullable=false)
@@ -89,6 +89,16 @@ public class User
 	public void setTodos(List<Todo> todos) {
 		this.todos = todos;
 	}
-    
 
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", todos=" + todos.size() +
+				", name='" + name + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", roles=" + roles +
+				'}';
+	}
 }
