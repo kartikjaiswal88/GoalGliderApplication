@@ -9,74 +9,161 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	<br /><br /><br />
-	<div class="container">
-		<div class="row col-md-8 offset-md-2">
-			<div class="card">
-				<div class="card-header">
-					<h2 class="text-center">Registration</h2>
+<!--	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
+<!--		<div class="container-fluid">-->
+<!--			<a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>-->
+<!--			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
+<!--				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"-->
+<!--				aria-label="Toggle navigation">-->
+<!--				<span class="navbar-toggler-icon"></span>-->
+<!--			</button>-->
+<!--			<div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--				<ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+<!--					<li class="nav-item">-->
+<!--						<a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>-->
+<!--					</li>-->
+<!--				</ul>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</nav>-->
+<!--	<br /><br /><br />-->
+<!--	<div class="container">-->
+<!--		<div class="row col-md-8 offset-md-2">-->
+<!--			<div class="card">-->
+<!--				<div class="card-header">-->
+<!--					<h2 class="text-center">Registration</h2>-->
+<!--				</div>-->
+<!--				<div th:if="${param.success}">-->
+<!--					<div class="alert alert-info">-->
+<!--						You have successfully registered our app!-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="card-body">-->
+<!--					<form method="post" role="form" th:action="@{/register/verify}" th:object="${user}">-->
+<!--						<div class="form-group mb-3">-->
+<!--							<label class="form-label">First Name</label>-->
+<!--							<input class="form-control" id="firstName" name="firstName" placeholder="Enter first name"-->
+<!--								th:field="*{firstName}" type="text" />-->
+<!--							<p th:errors="*{firstName}" class="text-danger" th:if="${#fields.hasErrors('firstName')}">-->
+<!--							</p>-->
+<!--						</div>-->
+
+<!--						<div class="form-group mb-3">-->
+<!--							<label class="form-label">Last Name</label>-->
+<!--							<input class="form-control" id="lastName" name="lastName" placeholder="Enter last name"-->
+<!--								th:field="*{lastName}" type="text" />-->
+<!--							<p th:errors="*{lastName}" class="text-danger" th:if="${#fields.hasErrors('lastName')}"></p>-->
+<!--						</div>-->
+
+<!--						<div class="form-group mb-3">-->
+<!--							<label class="form-label">Email</label>-->
+<!--							<input class="form-control" id="email" name="email" placeholder="Enter email address"-->
+<!--								th:field="*{email}" type="email" />-->
+<!--							<p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>-->
+<!--						</div>-->
+
+<!--						<div class="form-group mb-3">-->
+<!--							<label class="form-label">Password</label>-->
+<!--							<input class="form-control" id="password" name="password" placeholder="Enter password"-->
+<!--								th:field="*{password}" type="password" />-->
+<!--							<p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>-->
+<!--						</div>-->
+<!--						<div class="form-group">-->
+<!--							<button class="btn btn-primary" type="submit">Register</button>-->
+<!--							<span>Already registered? <a th:href="@{/login}">Login here</a></span>-->
+<!--						</div>-->
+<!--					</form>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+
+
+	<section class="Wrapper">
+		<div class="container">
+			<div class="col-sm-100  offset-sm-2 col-lg-6 offset-lg-3 col-xl-5 offset-xl-4 text-center" >
+				<div class="logo">
+					<img src="images\Logo.png" class="img-fluid" style="width: 200px" alt="logo">
 				</div>
-				<div th:if="${param.success}">
-					<div class="alert alert-info">
-						You have successfully registered our app!
+				<form class="rounded bg-white shadow p-5" th:action="@{/register/verify}" onsubmit="return validate()" method="post">
+					<h3 class="text-dark fw-bolder fs-4 mb-2" >Create an Account</h3>
+					<div class="fw-normal text-muted mb-4">
+						Already have an account ? <a href="login.html" class="text-primary fw-bold text-decoration-none">Login</a>
 					</div>
-				</div>
-				<div class="card-body">
-					<form method="post" role="form" th:action="@{/register/verify}" th:object="${user}">
-						<div class="form-group mb-3">
-							<label class="form-label">First Name</label>
-							<input class="form-control" id="firstName" name="firstName" placeholder="Enter first name"
-								th:field="*{firstName}" type="text" />
-							<p th:errors="*{firstName}" class="text-danger" th:if="${#fields.hasErrors('firstName')}">
-							</p>
-						</div>
-
-						<div class="form-group mb-3">
-							<label class="form-label">Last Name</label>
-							<input class="form-control" id="lastName" name="lastName" placeholder="Enter last name"
-								th:field="*{lastName}" type="text" />
-							<p th:errors="*{lastName}" class="text-danger" th:if="${#fields.hasErrors('lastName')}"></p>
-						</div>
-
-						<div class="form-group mb-3">
-							<label class="form-label">Email</label>
-							<input class="form-control" id="email" name="email" placeholder="Enter email address"
-								th:field="*{email}" type="email" />
-							<p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
-						</div>
-
-						<div class="form-group mb-3">
-							<label class="form-label">Password</label>
-							<input class="form-control" id="password" name="password" placeholder="Enter password"
-								th:field="*{password}" type="password" />
-							<p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
-						</div>
-						<div class="form-group">
-							<button class="btn btn-primary" type="submit">Register</button>
-							<span>Already registered? <a th:href="@{/login}">Login here</a></span>
-						</div>
-					</form>
-				</div>
+					<!-- Firstname -->
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="floatingFirstname" placeholder="First Name" th:field="${user.firstName}" >
+						<label for="floatingFirstname" >First name</label>
+					</div>
+					<!-- Lastname -->
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="floatingLastname" placeholder="Last Name" th:field="${user.lastName}">
+						<label for="floatingLastname" class="form-label">Last name</label>
+					</div>
+					<!-- email -->
+					<div class="form-floating mb-3">
+						<input type="email" class="form-control" id="floatingInput" placeholder="Email"  th:field="${user.email}">
+						<label for="floatingInput">Email</label>
+					</div>
+					<!-- password -->
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" id="floatingPassword" placeholder="Password" th:field="${user.password}">
+						<label for="floatingPassword">Password</label>
+					</div>
+					<!-- Confirm password -->
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" id="floatingConfirmpassword" placeholder="Confirm Password">
+						<label for="floatingConfirmpassword">Confirm Password</label>
+					</div>
+					<!-- Check box -->
+					<div class="form-check d-flex align-items-center">
+						<input class="form-check-input" type="checkbox" id="gridCheck">
+						<label class="form-check-label ms-2" for="gridCheck">
+							I Agree <a href="#">Terms and conditions</a>.
+						</label>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-primary submit_btn w-100 my-4">Continue</button>
+					</div>
+				</form>
 			</div>
 		</div>
-	</div>
+	</section>
+
 </body>
 
 </html>
+<script>
+    function validate() {
+
+        var firstName = document.getElementById("floatingFirstname").value;
+        var lastName = document.getElementById("floatingLastname").value;
+        var email = document.getElementById("floatingInput").value;
+        var password = document.getElementById("floatingPassword").value;
+        var confirmPassword = document.getElementById("floatingConfirmpassword").value;
+        var checkBox = document.getElementById("gridCheck").checked;
+
+
+        if (firstName.trim() === "" || lastName.trim() === "" || email.trim() === "" || password.trim() === "" || confirmPassword.trim() === "") {
+            alert("All fields are required");
+            return false;
+        }
+
+        if (password.length !== 8) {
+            alert("Password must be exactly 8 characters long");
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return false;
+        }
+
+        if (!checkBox) {
+            alert("Please agree to the terms and conditions");
+            return false;
+        }
+
+        return true;
+    }
+</script>

@@ -11,74 +11,120 @@
           crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<br /><br />
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
+<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
+<!--    <div class="container-fluid">-->
+<!--        <a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>-->
+<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+<!--        <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--            <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
+<!--<br /><br />-->
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-6 offset-md-3">-->
 
-            <div th:if="${param.error}">
-                <div class="alert alert-danger"></div>
+<!--            <div th:if="${param.error}">-->
+<!--                <div class="alert alert-danger"></div>-->
+<!--            </div>-->
+
+<!--            <div class="card">-->
+<!--                <div class="card-header">-->
+<!--                    <h2 class="text-center">Verify OTP</h2>-->
+<!--                </div>-->
+<!--                <div class="card-body">-->
+<!--                    <form-->
+<!--                            method="post"-->
+<!--                            role="form"-->
+<!--                            th:action="@{/register/save }"-->
+<!--                            class="form-horizontal"-->
+<!--                    >-->
+<!--                        <div class="form-group mb-3">-->
+<!--                            <label class="control-label">Enter OTP</label>-->
+<!--                            <input-->
+<!--                                    required="required"-->
+<!--                                    type="text"-->
+<!--                                    id="otp"-->
+<!--                                    name="otp"-->
+<!--                                    class="form-control"-->
+<!--                                    placeholder="Enter OTP"-->
+<!--                            />-->
+<!--                        </div>-->
+<!--                        <div class="form-group mb-3">-->
+<!--                            <button type="submit" class="btn btn-primary" >Verify OTP</button>-->
+<!--                            <span> Not registered ?-->
+<!--                            <a th:href="@{/register}">Register</a>-->
+<!--                             </span>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<section class="Wrapper">
+    <div class="container">
+        <div class="col-sm-100  offset-sm-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3 text-center" >
+            <div class="logo">
+                <img src="/images/Logo2.png" class="img-fluid" style="width: 200px" alt="logo">
             </div>
+            <form class="rounded bg-white shadow p-5" th:action="@{/register/save}" method="post">
+                <h3 class="text-dark fw-bolder fs-4 mb-2">OTP Verification</h3>
+                <div class="fw-normal text-muted mb-4">
+                    Enter the Verification Code we sent to.
+                </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">Verify OTP</h2>
+                <div class="otp_input text-start mb-2">
+
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger"></div>
+                    </div>
+                    <div th:if="${param.invalidOtp}">
+                        <div class="alert alert-danger">Invalid OTP</div>
+                    </div>
+
+                    <label for="digit">Type your 6 digit security code</label>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <input type="text" class="form-control" placeholder=" " th:name="digit1" maxlength="1" required pattern="[0-9]">
+                        <input type="text" class="form-control" placeholder=" " th:name="digit2" maxlength="1" required pattern="[0-9]">
+                        <input type="text" class="form-control" placeholder=" " th:name="digit3" maxlength="1" required pattern="[0-9]">
+                        <input type="text" class="form-control" placeholder=" " th:name="digit4" maxlength="1" required pattern="[0-9]">
+                        <input type="text" class="form-control" placeholder=" " th:name="digit5" maxlength="1" required pattern="[0-9]">
+                        <input type="text" class="form-control" placeholder=" " th:name="digit6" maxlength="1" required pattern="[0-9]">
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form
-                            method="post"
-                            role="form"
-                            th:action="@{/register/save }"
-                            class="form-horizontal"
-                    >
-                        <div class="form-group mb-3">
-                            <label class="control-label">Enter OTP</label>
-                            <input
-                                    required="required"
-                                    type="text"
-                                    id="otp"
-                                    name="otp"
-                                    class="form-control"
-                                    placeholder="Enter OTP"
-                            />
-                        </div>
-                        <div class="form-group mb-3">
-                            <button type="submit" class="btn btn-primary" >Verify OTP</button>
-                            <span> Not registered ?
-                            <a th:href="@{/register}">Register</a>
-                             </span>
-                        </div>
-                    </form>
+                <div>
+                    <button type="submit" class="btn btn-primary submit_btn my-4">Submit</button>
+                    <div class="fw-normal text-muted mb-4">
+                        Didn't get the code ? <a th:href="@{/forget-password}" class="text-primary fw-bold text-decoration-none">Resend</a>
+                    </div>
                 </div>
-                </div>
+            </form>
+
         </div>
     </div>
-</div>
+</section>
+
 </body>
 </html>
-<script>
-    function validatePasswords() {
-        var newPassword = document.getElementById('new-password').value;
-        var retypedPassword = document.getElementById('retype-password').value;
 
-        if (newPassword !== retypedPassword) {
-            alert("Passwords do not match.");
-            return false;
+<script>
+    function validateForm() {
+        var inputs = document.querySelectorAll('input');
+        for (var i = 0; i < inputs.length; i++) {
+            if (!inputs[i].checkValidity()) {
+                alert("Please enter a valid 6-digit OTP.");
+                return false;
+            }
         }
         return true;
     }

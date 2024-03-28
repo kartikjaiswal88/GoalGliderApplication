@@ -1,5 +1,6 @@
 package com.example.registrationlogindemo.controller;
 import java.util.List;
+import java.util.Map;
 
 import com.example.registrationlogindemo.service.EmailService;
 import jakarta.validation.constraints.Email;
@@ -69,16 +70,30 @@ public class AuthController {
             System.out.println("Email sent Successfully");
             model.addAttribute("userDto",userDto);
             return "verify-registration-email";
+        }else{
+            result.rejectValue("email", null,
+                    "Invalid email");
+                return "/register";
         }
-        return "register";
+
+
 //        userService.saveUser(userDto);
 //        return "redirect:/register?success";
     }
     @PostMapping("/register/save")
-    public String registerVerified(@SessionAttribute UserDto userDto, SessionStatus sessionStatus){
+    public String registerVerified(@SessionAttribute UserDto userDto, @RequestParam Map<String,String> map, SessionStatus sessionStatus){
+        StringBuilder sb = new StringBuilder();
+        for(Map.Entry<String,String> entry : map.entrySet()){
+            sb.append(entry.getValue());
+        }
+
+        Boolean flag = emailService.verifyOtp(userDto.getEmail(), sb.toString());
+        if(!flag){
+            return "/register/save?invalidOtp";
+        }
         userService.saveUser(userDto);
         sessionStatus.setComplete();
-        return "redirect:/register?success";
+        return "redirect:/login?success";
     }
 
     // handler method to handle list of users

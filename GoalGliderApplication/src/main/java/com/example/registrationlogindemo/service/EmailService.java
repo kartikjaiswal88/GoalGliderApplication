@@ -82,9 +82,10 @@ public class EmailService {
 
         }catch(Exception e){
             e.printStackTrace();
+            flag = false;
         }
 
-        return flag;
+        return true;
     }
 
     public boolean sendEmail(String to, String subject, String text, ByteArrayInputStream byteArrayInputStream) {

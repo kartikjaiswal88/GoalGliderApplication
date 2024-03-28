@@ -91,7 +91,7 @@
     <div class="container">
         <div class="col-sm-8  offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center" >
             <div class="logo">
-                <img th:src="@{images/Logo2.png}" class="img-fluid" alt="logo">
+                <img th:src="@{images/Logo2.png}" class="img-fluid" style="width: 200px" alt="logo">
             </div>
             <form class="rounded bg-white shadow p-5" th:action="@{/login}" method="post">
 
@@ -104,11 +104,16 @@
                 <div th:if="${param.passwordReset}">
                     <div class="alert alert-success"> Your password have been successfully changed.</div>
                 </div>
+                <div th:if="${param.success}">
+                    <div class="alert alert-info">
+                        You have successfully registered our app!
+                    </div>
+                </div>
 
 
                 <h3 class="text-dark fw-bolder fs-4 mb-2" >Sign In to GoalGlider</h3>
                 <div class="fw-normal text-muted mb-4">
-                    Register? <a href="indexx2.html" class="text-primary fw-bold text-decoration-none">Create an Account</a>
+                    Register? <a th:href="@{/register}" class="text-primary fw-bold text-decoration-none">Create an Account</a>
                 </div>
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" placeholder="Email" name="username">
@@ -119,7 +124,7 @@
                     <label for="floatingPassword">Password</label>
                 </div>
                 <div class="mt-2 text-end">
-                    <a th:href="@{/forget-password}" href="forget.html" class="text-primary fw-bold text-decoration-none">Forgot Password</a>
+                    <a th:href="@{/forget-password}" class="text-primary fw-bold text-decoration-none">Forgot Password</a>
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary submit_btn w-100 my-4">Submit</button>
