@@ -22,7 +22,7 @@ public class TodoReminderScheduler {
 
     private static final Logger logger = LoggerFactory.getLogger(TodoReminderScheduler.class);
 
-    @Scheduled(cron = " 0 54 23 * * *")
+    @Scheduled(cron = " 0 8 * * * *")
     public void todoReminederScheduler(){
         logger.info(" ");
         for (User user : userService.findAllUser()) {
