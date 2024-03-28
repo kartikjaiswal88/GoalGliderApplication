@@ -1,0 +1,18 @@
+
+.Wrapper .otp_input input{
+ width:14% ;
+ heighth:70px ;
+ text-align: center;
+ font-size:20px ;
+ font-weigth:600px;
+}
+
+@media (max-width :1200px){
+.Wrapper .otp_input input{
+ height : 50px
+ }
+ }@media (max-width :767px){
+.Wrapper .otp_input input{
+ height : 40px
+ }
+ }
