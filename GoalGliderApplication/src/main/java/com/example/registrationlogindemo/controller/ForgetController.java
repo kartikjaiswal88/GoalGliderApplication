@@ -49,7 +49,12 @@ public class ForgetController {
     }
     @PostMapping("/verify-forgot-otp")
     public String verifyOtp(@RequestParam Map<String,String> map, @SessionAttribute String email){
-        Boolean flag = emailService.verifyOtp(email, map.get("otp"));
+        StringBuilder sb = new StringBuilder();
+        for(Map.Entry<String,String> entry : map.entrySet()){
+            sb.append(entry.getValue());
+        }
+
+        Boolean flag = emailService.verifyOtp(email, sb.toString());
         if(!flag){
             return "redirect:/verify-forgot-otp?invalidOtp";
         }
@@ -58,7 +63,7 @@ public class ForgetController {
 
     @PostMapping("/reset-password")
     public String resetPassword(@RequestParam Map<String,String> map, @SessionAttribute String email, SessionStatus sessionStatus){
-        userService.updatePasswordForUser(email,map.get("new-password"));
+        userService.updatePasswordForUser(email,map.get("floatingPassword"));
         sessionStatus.setComplete();
         return "redirect:/login?passwordReset";
     }

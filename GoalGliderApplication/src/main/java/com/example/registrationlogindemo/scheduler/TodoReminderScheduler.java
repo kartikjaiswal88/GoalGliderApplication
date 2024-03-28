@@ -1,7 +1,5 @@
 package com.example.registrationlogindemo.scheduler;
 
-import com.example.registrationlogindemo.dto.UserDto;
-import com.example.registrationlogindemo.entity.Todo;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.service.EmailService;
 import com.example.registrationlogindemo.service.PdfService;
@@ -10,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component
 public class TodoReminderScheduler {
