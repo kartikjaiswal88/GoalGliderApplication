@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
@@ -30,13 +31,14 @@ public class ForgetController {
     }
 
     @PostMapping("/forget-password")
-    public String sendOtp(@RequestParam Map<String,String> map, Model model){
+    public String sendOtp(@RequestParam Map<String,String> map, Model model, RedirectAttributes redirectAttributes){
         String email = map.get("email");
         logger.trace(email);
         User existingUser = userService.findUserByEmail(email);
 
         if(existingUser == null ){
-            return "redirect:/forget-password?notfound";
+            redirectAttributes.addFlashAttribute("error","Email not found");
+            return "redirect:/forget-password";
         }
         model.addAttribute("email", email);
         Boolean flag = emailService.sendEmailVerificationOtp(email);
@@ -48,7 +50,7 @@ public class ForgetController {
         return "verify-forgot-otp";
     }
     @PostMapping("/verify-forgot-otp")
-    public String verifyOtp(@RequestParam Map<String,String> map, @SessionAttribute String email){
+    public String verifyOtp(@RequestParam Map<String,String> map, @SessionAttribute String email, RedirectAttributes redirectAttributes){
         StringBuilder sb = new StringBuilder();
         for(Map.Entry<String,String> entry : map.entrySet()){
             sb.append(entry.getValue());
@@ -56,15 +58,17 @@ public class ForgetController {
 
         Boolean flag = emailService.verifyOtp(email, sb.toString());
         if(!flag){
-            return "redirect:/verify-forgot-otp?invalidOtp";
+            redirectAttributes.addFlashAttribute("error","Please enter valid OTP");
+            return "redirect:/verify-forgot-otp";
         }
         return "/reset-password";
     }
 
     @PostMapping("/reset-password")
-    public String resetPassword(@RequestParam Map<String,String> map, @SessionAttribute String email, SessionStatus sessionStatus){
+    public String resetPassword(@RequestParam Map<String,String> map, @SessionAttribute String email, SessionStatus sessionStatus, RedirectAttributes redirectAttributes){
         userService.updatePasswordForUser(email,map.get("floatingPassword"));
         sessionStatus.setComplete();
-        return "redirect:/login?passwordReset";
+        redirectAttributes.addFlashAttribute("success","Password reset successfully !!!");
+        return "redirect:/login";
     }
 }

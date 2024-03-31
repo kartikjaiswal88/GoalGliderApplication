@@ -5,6 +5,7 @@ import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.TodoRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.service.TodoService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 
 @Controller
+@Slf4j
 public class TodoController {
 
     private Logger logger = LoggerFactory.getLogger(TodoController.class);
@@ -73,6 +75,7 @@ public class TodoController {
 
     @PostMapping("/delete-todo")
     public String deleteTodo(@RequestParam("todoId") Long todoId) {
+        logger.info("deleting todo by id : {}", todoId);
         todoService.deleteTodoById(todoId);
         return "redirect:/listtodos";
     }

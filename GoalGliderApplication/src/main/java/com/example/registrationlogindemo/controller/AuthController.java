@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.example.registrationlogindemo.service.EmailService;
 import jakarta.validation.constraints.Email;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,8 +16,10 @@ import com.example.registrationlogindemo.service.UserService;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@Slf4j
 @SessionAttributes("userDto")
 public class AuthController {
 
@@ -53,7 +56,8 @@ public class AuthController {
     @PostMapping("/register/verify")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto,
                                BindingResult result,
-                               Model model){
+                               Model model,
+                               RedirectAttributes redirectAttributes){
         User existingUser = userService.findUserByEmail(userDto.getEmail());
 
         if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
@@ -67,21 +71,20 @@ public class AuthController {
         }
         boolean flag = emailService.sendEmailVerificationOtp(userDto.getEmail());
         if(flag){
-            System.out.println("Email sent Successfully");
+            log.debug("sending email verification to {}", userDto.getEmail());
             model.addAttribute("userDto",userDto);
+            redirectAttributes.addFlashAttribute("success","Email sent successfully");
             return "verify-registration-email";
         }else{
             result.rejectValue("email", null,
                     "Invalid email");
                 return "/register";
         }
-
-
 //        userService.saveUser(userDto);
 //        return "redirect:/register?success";
     }
     @PostMapping("/register/save")
-    public String registerVerified(@SessionAttribute UserDto userDto, @RequestParam Map<String,String> map, SessionStatus sessionStatus){
+    public String registerVerified(@SessionAttribute UserDto userDto, @RequestParam Map<String,String> map, SessionStatus sessionStatus, RedirectAttributes redirectAttributes){
         StringBuilder sb = new StringBuilder();
         for(Map.Entry<String,String> entry : map.entrySet()){
             sb.append(entry.getValue());
@@ -89,11 +92,15 @@ public class AuthController {
 
         Boolean flag = emailService.verifyOtp(userDto.getEmail(), sb.toString());
         if(!flag){
-            return "/register/save?invalidOtp";
+            log.trace("otp not verified for user {} ", userDto.getEmail());
+            redirectAttributes.addFlashAttribute("error","Please enter valid OTP");
+            return "redirect:/register/save";
         }
+        redirectAttributes.addFlashAttribute("success","You are succesfully registered");
         userService.saveUser(userDto);
         sessionStatus.setComplete();
-        return "redirect:/login?success";
+        log.trace("user {} registered successfully", userDto.getEmail());
+        return "redirect:/login";
     }
 
     // handler method to handle list of users
