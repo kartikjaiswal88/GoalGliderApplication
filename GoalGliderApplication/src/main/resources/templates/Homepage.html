@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoalGlider | Welcome</title>
+<!--    <link rel="stylesheet" href="Style2.css">-->
+    <link th:href="@{/css/Style2.css}" rel="stylesheet" />
+</head>
+<body>
+    <div class="hero">
+        <nav>
+            <img src="images\Logo3.1.png" class="logo">
+            <ul>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">How it works</a></li>
+                <li><a href="#">Privacy</a></li>
+            </ul>
+            <div>
+                <a href="/login" class="Login-btn" >Login</a>
+                <a href="/register" class="btn">Register</a>
+            </div>
+            <div>
+            </div>
+        </nav>
+        
+        <div class="content">
+            <h1 class="anim">Welcome to GoalGlider</h1>
+            <p class="anim">
+                <br>
+                 Empower your productivity with our task analyser app, your ultimate companion for efficient time management. Seamlessly organize tasks, set priorities, and track progress with intuitive features designed to elevate your workflow. Stay focused, accomplish more, and unlock your full potential with ease.
+            </p>
+            <a href="" class="btn anim">Get Started</a>
+        </div>
+        <img src="images\task.png" class="Features-img anim">
+    </div>
+</body>
+</html>

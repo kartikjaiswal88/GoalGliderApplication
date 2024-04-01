@@ -22,7 +22,7 @@ public class TodoReminderScheduler {
 
     private static final Logger logger = LoggerFactory.getLogger(TodoReminderScheduler.class);
 
-    @Scheduled(cron = " 0 8 * * * *")
+    @Scheduled(cron = " 20 41 * * * *")
     public void todoReminederScheduler(){
         logger.info(" ");
         for (User user : userService.findAllUser()) {
@@ -30,8 +30,8 @@ public class TodoReminderScheduler {
 //            for (Todo todo:user.getTodos()) {
 //                System.out.println(todo);
 //            }
-            if(user.getTodos().size() > 0)
-                emailService.sendEmail(user.getEmail(),"task analysis","task done by you are",pdfService.createPdf(user.getTodos(),user.getEmail() ));
+//            if(user.getTodos().size() > 0)
+//                emailService.sendEmail(user.getEmail(),"task analysis","task done by you are",pdfService.createPdf(user.getTodos(),user.getEmail() ));
         }
     }
 }

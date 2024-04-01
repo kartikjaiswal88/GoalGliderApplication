@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoalGlider</title>
+    <link rel="stylesheet" th:href="@{/css/Style3.css}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+      <aside>
+        <div class="top">
+          <div class="logo">
+            <img class="danger" src="images\Logo3.png">
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">close</span>
+          </div>
+        </div>
+        <div class="sidebar">
+          <a href="Dashboard.html">
+            <span class="material-icons-sharp">grid_view</span>
+            <h3>Dashboard</h3>
+          </a>
+          <a href="/pieChart">
+            <span class="material-icons-sharp">trending_up</span>
+            <h3>Analytics</h3>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp">message</span>
+            <h3> Messages</h3>
+            <span class="Message-count">26</span>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp">report</span>
+            <h3>Reports</h3>
+          </a>
+          <a href="setting .html">
+            <span class="material-icons-sharp">settings</span>
+            <h3>Settings</h3>
+          </a>
+          <a href="/add-todo">
+            <span class="material-icons-sharp">add</span>
+            <h3>Add Task</h3>
+          </a>
+          <a href="LOGIN.HTML">
+            <span class="material-icons-sharp">logout</span>
+            <h3>Logout</h3>
+          </a>
+        </div>
+      </aside>
+
+      <!-- ------------------- MAIN PART------------------------ -->
+       <main>
+           <h1>Dashboard</h1>
+           <div class="date">
+            <input type="date">
+           </div>
+
+           <div class="insights">
+            <div class="sales">
+              <span class="material-icons-sharp">done_all</span>
+              <div class="middle">
+                <div class="left">
+                  <h3>Completed Task</h3>
+                  <h1>25,000</h1>
+                </div>
+                <div class="progress">
+                  <svg>
+                    <circle cx='38' cy='38' r='36'></circle>
+                  </svg>
+              <div class="number">
+                <p>81%</p>
+              
+              </div>
+                </div>
+              </div>
+              <small class="text-muted">Last 24 Hours</small>
+            </div>
+            <!-- ----------------END OF COMPLETEDS--------------- -->
+
+
+            <div class="span">
+              <span class="material-icons-sharp">incomplete_circle</span>
+              <div class="middle">
+                <div class="left">
+                  <h3>InCompleted Task</h3>
+                  <h1>25,000</h1>
+                </div>
+                <div class="progress">
+                  <svg>
+                    <circle cx='38' cy='38' r='36'></circle>
+                  </svg>
+              <div class="number">
+                <p>61%</p>
+              
+              </div>
+                </div>
+              </div>
+              <small class="text-muted">Last 24 Hours</small>
+            </div>
+            <!-- ----------------END OF INCOMPLETEDS--------------- -->
+
+
+            <div class="expenses">
+              <span class="material-icons-sharp">pending_actions</span>
+              <div class="middle">
+                <div class="left">
+                  <h3>Pending Task</h3>
+                  <h1>25,000</h1>
+                </div>
+                <div class="progress">
+                  <svg>
+                    <circle cx='38' cy='38' r='36'></circle>
+                  </svg>
+              <div class="number">
+                <p>41%</p>
+              
+              </div>
+                </div>
+              </div>
+              <small class="text-muted">Last 24 Hours</small>
+            </div>
+            <!-- ----------------END OF pending--------------- -->
+           </div>
+
+          <div class="recent-task">
+            <h2>Recent-task</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Task name</th>
+                  <th>Completed</th>
+                  <th>InCompleted</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td class="warning">pending</td>
+                  <td class="primary">Details</td>
+                </tr>
+                <tr>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td class="warning">pending</td>
+                  <td class="primary">Details</td>
+                </tr>
+
+                <tr>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td class="warning">pending</td>
+                  <td class="primary">Details</td>
+                </tr>
+
+                <tr>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td class="warning">pending</td>
+                  <td class="primary">Details</td>
+                </tr>
+
+                <tr>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td class="warning">pending</td>
+                  <td class="primary">Details</td>
+                </tr>
+
+
+                <tr>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td class="warning">pending</td>
+                  <td class="primary">Details</td>
+                </tr>
+                <tr>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td class="warning">pending</td>
+                  <td class="primary">Details</td>
+                </tr>
+                <tr>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td>Study</td>
+                  <td class="warning">pending</td>
+                  <td class="primary">Details</td>
+                </tr>
+              </tbody>
+            </table>
+            <a href="#">Show All</a>
+          </div>
+       </main>
+
+      <!-- ---------------------right side-------------------------------- -->
+      <div class="right">
+        <div class="top">
+          <button id="menu-btn">
+            <span class="material-icons-sharp">menu</span>
+          </button>
+          <div class="profile">
+            <div class="info">
+              <p>Hey, <b>Jatin</b></p>
+              <small class="text-muted">Admin</small>
+            </div>
+            <div class="profile-photo">
+              <img src="images\PROFILE2.jpg" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

@@ -30,7 +30,15 @@ public class AuthController {
         this.emailService = emailService;
         this.userService = userService;
     }
+    @GetMapping("/")
+    public String getHome(){
+        return "HomePage";
+    }
 
+    @GetMapping("/dashboard")
+    public String gotoDashboard(){
+        return "Dashboard";
+    }
     // handler method to handle home page request
     @GetMapping("/index")
     public String home(){
