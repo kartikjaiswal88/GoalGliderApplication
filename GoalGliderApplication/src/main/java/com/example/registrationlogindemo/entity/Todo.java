@@ -27,7 +27,7 @@ public class Todo {
 
     private boolean done;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     private long totalTime;
