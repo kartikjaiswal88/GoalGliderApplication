@@ -100,6 +100,7 @@ small{
     height: 2.8rem;
     border-radius: 50%;
     overflow: hidden;
+    margin-right: 50px;
 }
 
 .text-muted{
@@ -441,11 +442,7 @@ margin-top: 1.4rem;
 
 }
 
-.right .top .profile{
-    display: flex;
-    gap: 2rem;
-    text-align: right;
-}
+
 
 
 

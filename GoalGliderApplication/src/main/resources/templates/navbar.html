@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/Stylenav.css}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet">
+</head>
+<body>
+        <div th:fragment="navbar">
+
+        <div class="navbar">
+
+            <nav>
+                <div class="logo">
+                    <img src="images\Logo2.png" alt="LOGO" width="100px">
+                </div>
+                <ul id="MenuItems">
+
+                    <li><a href="/welcome">Home</a></li>
+<!--                    <li><a href="/dashboard">Dashboard</a></li>-->
+                    <li><a href="/listtodos">Manage Tasks</a></li>
+                    <li>
+                        <a href="/logout">
+                            <span class="material-icons-sharp"  width="30px" height="30px">logout</span>
+                        </a>
+                    </li>
+                    <li> <div class="profile">
+
+                        <div class="profile-photo">
+                            <img src="images\PROFILE2.jpg" alt="">
+                        </div>
+                    </div> </li>
+                </ul>
+            </nav>
+
+           </div> 
+            
+    </div>
+
+</body>
+</html>

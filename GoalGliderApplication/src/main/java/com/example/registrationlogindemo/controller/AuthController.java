@@ -35,14 +35,14 @@ public class AuthController {
         return "HomePage";
     }
 
-    @GetMapping("/dashboard")
-    public String gotoDashboard(){
-        return "Dashboard";
-    }
+//    @GetMapping("/dashboard")
+//    public String gotoDashboard(){
+//        return "Dashboard";
+//    }
     // handler method to handle home page request
     @GetMapping("/index")
     public String home(){
-        return "index";
+        return "Dashboard";
     }
 
     // handler method to handle login request
@@ -122,7 +122,7 @@ public class AuthController {
     // Handler method to handle the request of welcome page
     @GetMapping("/welcome")
     public String gotoWelcomePage() {
-            return "welcome";
+            return "Dashboard";
 
     }
 }
